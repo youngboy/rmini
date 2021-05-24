@@ -18,7 +18,11 @@ const { compilerPolyfill } = require("./polyfill");
  * @param {{ pages: string[] }} appConfig
  * @param {{ setting: { [key as string]: boolean }  }} projectConfig
  */
-exports.compilerJavascript = async function(entryDir, appConfig, projectConfig) {
+exports.compilerJavascript = async function(
+  entryDir,
+  appConfig,
+  projectConfig
+) {
   /**
    * 将 AppConfig 中的 pages 构成一个入口文件
    */
@@ -35,13 +39,16 @@ exports.compilerJavascript = async function(entryDir, appConfig, projectConfig) 
             "@babel/preset-env",
             {
               targets: {
-                esmodules: true,
-              },
-            },
-          ],
+                esmodules: true
+              }
+            }
+          ]
         ],
-        plugins: ["@babel/plugin-proposal-nullish-coalescing-operator", "@babel/plugin-proposal-optional-chaining"],
-        exclude: "node_modules/**",
+        plugins: [
+          "@babel/plugin-proposal-nullish-coalescing-operator",
+          "@babel/plugin-proposal-optional-chaining"
+        ],
+        exclude: "node_modules/**"
       })
     );
   }
@@ -61,12 +68,14 @@ exports.compilerJavascript = async function(entryDir, appConfig, projectConfig) 
       if (!/pages/.test(id)) return { code };
       const pageId = id.substr(cwd.length).replace(/\.js$/, "");
       return { code: "Page.__pageId = '" + pageId + "'\n" + code };
-    },
+    }
   };
   rollupPlugins.push(injectPageId);
 
   const code = await rollupCompiler(templateEntry, rollupPlugins, polyfillCode);
-  return fs.promises.writeFile(path.join(entryDir, "main.js"), code, { encoding: "utf-8" });
+  return fs.promises.writeFile(path.join(entryDir, "main.js"), code, {
+    encoding: "utf-8"
+  });
 };
 
 function rollupCompiler(entry, plugins, polyfill) {
@@ -74,26 +83,26 @@ function rollupCompiler(entry, plugins, polyfill) {
     .rollup({
       input: entry,
       treeshake: true,
-      plugins: plugins,
+      plugins: plugins
     })
-    .then((bundler) => {
+    .then(bundler => {
       return bundler.generate({
         strict: false,
         format: "iife",
         intro: `
-        var getApp = global.__polyfill__.getApp;
-        var wx = global.__polyfill__.wx;
-        var App = global.__polyfill__.App;
-        var Page = global.__polyfill__.Page;
-        var console = global.__polyfill__.console;
+        var getApp = globalThis.__polyfill__.getApp;
+        var wx = globalThis.__polyfill__.wx;
+        var App = globalThis.__polyfill__.App;
+        var Page = globalThis.__polyfill__.Page;
+        var console = globalThis.__polyfill__.console;
         `,
-        outro: "",
+        outro: ""
       });
     })
-    .then((res) => res.output[0].code)
-    .then((code) => {
+    .then(res => res.output[0].code)
+    .then(code => {
       return polyfill + code;
     })
-    .then((code) => code)
+    .then(code => code)
     .catch(console.error);
 }

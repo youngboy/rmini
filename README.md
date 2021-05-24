@@ -42,7 +42,7 @@ yarn link # or npm link 注册 rmini命令行工具
 cd miniprogram-project
 
 # 编译项目
-rmini 
+rmini
 # 如果不使用 rmini, 则: node ../packages/compiler/cli/index.js
 # 获取到编译后的源文件
 ```
@@ -79,3 +79,19 @@ serve /var/folder/xxx/xxx/wxc8ecefecf650b4ff/../
 ## 效果图
 
 ![效果图](./asserts/des.gif)
+
+
+## yb warning
+
+需要自己host runtime.js
+
+我的步骤
+
+1. yarn
+2. cd packages/compiler && yarn link
+3. cd packages/runtime && npm run build && cd dist && http-serve .
+4. cd miniprogram-project && rmini
+5. 检测上面输出，，serve 起来，如 http-server /var/folders/fb/0lcg6sxx1vdf3rv44b9hlh7r0000gn/
+6. 项目中搜到 8080 / 8081 端口，自己替换
+7. cd packages/Swift && pod install && open MiniprogramExample.xcodeproj/
+

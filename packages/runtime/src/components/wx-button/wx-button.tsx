@@ -11,8 +11,7 @@ import {
   createEvent,
   TouchTargetEvent,
   eventToNative,
-  same,
-  log
+  same
 } from "../../utils/utils";
 
 @Component({
@@ -102,7 +101,7 @@ export class WxButton implements ComponentInterface {
 
   @Listen("touchstart")
   handlerTouchstart(event: TouchTargetEvent) {
-    if (this.disabled) return
+    if (this.disabled) return;
     this.hoved = true;
     this.touchStartInfo = { target: event.target, time: Date.now() };
     if (this.catchTouchstart) {
@@ -116,7 +115,7 @@ export class WxButton implements ComponentInterface {
 
   @Listen("touchmove")
   handlerTouchmove(event: TouchTargetEvent) {
-    if (this.disabled) return
+    if (this.disabled) return;
     if (this.catchTouchmove) {
       event.stopPropagation();
       eventToNative(this.catchTouchmove, createEvent(event));
@@ -128,7 +127,7 @@ export class WxButton implements ComponentInterface {
 
   @Listen("touchcancel")
   handlerTouchcancel(event: TouchTargetEvent) {
-    if (this.disabled) return
+    if (this.disabled) return;
     this.hoved = false;
     if (this.catchTouchcancel) {
       event.stopPropagation();
@@ -141,7 +140,7 @@ export class WxButton implements ComponentInterface {
 
   @Listen("touchend")
   handlerTouchend(event: TouchTargetEvent) {
-    if (this.disabled) return
+    if (this.disabled) return;
     this.hoved = false;
     if (this.catchTouchend) {
       event.stopPropagation();
@@ -170,7 +169,7 @@ export class WxButton implements ComponentInterface {
   // XXX: 点击太快会有一次触发丢失
   @Listen("click")
   handlerTap(event: TouchTargetEvent) {
-    if (this.disabled) return
+    if (this.disabled) return;
     if (this.catchtap) {
       event.stopPropagation();
       eventToNative(this.catchtap, createEvent(event));

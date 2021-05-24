@@ -10,10 +10,10 @@ import SwiftUI
 
 struct ContentView : View {
     @State var appId: String = "wxc8ecefecf650b4ff"
-    
+
     // 小程序远程路径， 通过 appId 获取
-    @State var sourceBaseApi: String = "http://10.0.2.71:5000/"
-    
+    @State var sourceBaseApi: String = "http://10.100.167.10:8080/"
+
     var body: some View {
         VStack {
             VStack {

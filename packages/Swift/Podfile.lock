@@ -11,7 +11,7 @@ DEPENDENCIES:
   - SSZipArchive
 
 SPEC REPOS:
-  https://gitee.com/mirrors/CocoaPods-Specs.git:
+  trunk:
     - ObjectMapper
     - PKHUD
     - SDDownloadManager
@@ -23,6 +23,6 @@ SPEC CHECKSUMS:
   SDDownloadManager: 62a9339c03ea27606effefd9aa1800e4127e3a52
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
 
-PODFILE CHECKSUM: 299ae8deeeea2ee583cae6cce27003f63fad6755
+PODFILE CHECKSUM: 5314ed6d6d325f57443626d74dabe23d50ccef34
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

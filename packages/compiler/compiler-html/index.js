@@ -27,7 +27,7 @@ const template = {
   tail: `
     </script>
   </html>
-  `,
+  `
 };
 
 exports.compilerHtml = function(entryDir, appConfig, projectConfig) {
@@ -35,11 +35,13 @@ exports.compilerHtml = function(entryDir, appConfig, projectConfig) {
     throw new Error("no page fount");
   }
 
-  appConfig.pages.forEach(async (pageEntry) => {
+  appConfig.pages.forEach(async pageEntry => {
     const wxmlPath = path.join(cwd, pageEntry + ".wxml");
     fs.accessSync(wxmlPath);
 
-    const originalWxmlContent = await fs.promises.readFile(wxmlPath, { encoding: "utf-8" });
+    const originalWxmlContent = await fs.promises.readFile(wxmlPath, {
+      encoding: "utf-8"
+    });
     const styleContent = await compilerStyle(pageEntry);
     const scriptContent = compilerJavascript(originalWxmlContent);
     const wxmlContent = await compilerHtml(originalWxmlContent);
@@ -47,7 +49,7 @@ exports.compilerHtml = function(entryDir, appConfig, projectConfig) {
     let content = "";
     content += template.head;
     content += `<style>body { font-size: 0.24rem }\n${styleContent}</style>\n`;
-    content += `<script src="https://unpkg.com/@rmini/runtime@${projectConfig.libVersion}"></script>\n`;
+    content += `<script src="http://127.0.0.1:8081/runtime/runtime.js"></script>\n`;
     content += template.body;
     content += wxmlContent;
     content += template.foot;
@@ -61,6 +63,8 @@ exports.compilerHtml = function(entryDir, appConfig, projectConfig) {
       //
     }
 
-    fs.promises.writeFile(path.join(entryDir, pageEntry, "index.html"), content, "utf-8").catch(console.error);
+    fs.promises
+      .writeFile(path.join(entryDir, pageEntry, "index.html"), content, "utf-8")
+      .catch(console.error);
   });
 };
